@@ -1,0 +1,2 @@
+class LeagueStandingsController < ApplicationController
+end
