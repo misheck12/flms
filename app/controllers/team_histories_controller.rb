@@ -1,0 +1,2 @@
+class TeamHistoriesController < ApplicationController
+end
