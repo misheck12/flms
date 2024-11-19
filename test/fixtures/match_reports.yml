@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  match: one
+  referee: one
+  report_details: MyText
+  goal_scorers: 
+  cards: 
+  notable_incidents: MyText
+
+two:
+  match: two
+  referee: two
+  report_details: MyText
+  goal_scorers: 
+  cards: 
+  notable_incidents: MyText
