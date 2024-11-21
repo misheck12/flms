@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users
+  #devise_for :users
   # Root Path (Landing Page)
   root "home#index" # Controller for landing page
 
