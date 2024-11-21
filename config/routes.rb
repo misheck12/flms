@@ -9,12 +9,6 @@ Rails.application.routes.draw do
 
   devise_for :users
 
-  # Authentication Routes
-  get "register", to: "users#new", as: :register
-  get "login", to: "sessions#new", as: :login
-  post "login", to: "sessions#create"
-  delete "logout", to: "sessions#destroy", as: :logout
-
   # Concerns for Shared Routes
   concern :dashboardable do
     get "dashboard", to: "dashboard#index", as: :dashboard
