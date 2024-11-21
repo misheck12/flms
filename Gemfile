@@ -4,8 +4,8 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby "3.2.2"
 gem 'bcrypt', '~> 3.1.7'
 gem 'rails', '~> 7.0.0'
-gem 'devise'
-gem 'orm_adapter', '~> 0.5.0'
+gem 'devise', '4.9.4' 
+gem 'orm_adapter', '0.5.0' 
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 
