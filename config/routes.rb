@@ -1,13 +1,24 @@
 Rails.application.routes.draw do
+  get 'sessions/new'
+  get 'sessions/create'
+  get 'sessions/destroy'
+  
+
   # Root Path (Landing Page)
   root "home#home"
 
-  # Devise Routes with Custom Path Names
+  devise_for :users
+
   devise_for :users, path: '', path_names: {
     sign_in: 'login',
     sign_out: 'logout',
     sign_up: 'register'
   }
+
+  # Concerns for Shared Routes
+  concern :dashboardable do
+    get "dashboard", to: "dashboard#index", as: :dashboard
+  end
 
   # Admin Dashboard
   namespace :admin do
@@ -19,7 +30,7 @@ Rails.application.routes.draw do
     resources :referees
     resources :matches, only: [:index, :show, :edit, :update, :destroy]
     resources :notifications, only: [:index, :create, :destroy]
-    concerns :dashboard
+    concerns :dashboardable
   end
 
   # Team Dashboard
@@ -36,7 +47,7 @@ Rails.application.routes.draw do
       end
     end
     resources :profiles, only: [:show, :update]
-    concerns :dashboard
+    concerns :dashboardable
   end
 
   # Referee Dashboard
@@ -48,7 +59,7 @@ Rails.application.routes.draw do
       end
     end
     get "history", to: "matches#history"
-    concerns :dashboard
+    concerns :dashboardable
   end
 
   # Fans/Viewers Routes
@@ -64,6 +75,6 @@ Rails.application.routes.draw do
   match "/404", to: "errors#not_found", via: :all
   match "/500", to: "errors#internal_server_error", via: :all
 
-  # Catch-All Route for Undefined Paths (Place at End)
+  # Catch-All Route for Undefined Paths (Optional)
   match "*path", to: "errors#not_found", via: :all
 end
