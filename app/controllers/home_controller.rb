@@ -1,5 +1,7 @@
 class HomeController < ApplicationController
-  def index
-    # Add any logic needed for the home page
+  skip_before_action :authenticate_user!, only: [:home]
+
+  def home
+    # Landing page code
   end
 end

@@ -1,7 +1,13 @@
 Rails.application.routes.draw do
-  devise_for :users
+  get 'sessions/new'
+  get 'sessions/create'
+  get 'sessions/destroy'
+  
+
   # Root Path (Landing Page)
-  root "home#index" # Controller for landing page
+  root "home#home"
+
+  devise_for :users
 
   # Authentication Routes
   get "register", to: "users#new", as: :register
@@ -17,7 +23,7 @@ Rails.application.routes.draw do
   # Admin Dashboard
   namespace :admin do
     resources :leagues do
-      resources :standings, only: [:index] # Specific league standings
+      resources :standings, only: [:index]
     end
     resources :teams
     resources :players, only: [:index, :show, :edit, :update, :destroy]
@@ -48,21 +54,21 @@ Rails.application.routes.draw do
   namespace :referee do
     resources :matches, only: [:index, :show] do
       member do
-        post "claim", to: "matches#claim" # Claim a match
-        post "submit_report", to: "matches#submit_report" # Submit match report
+        post "claim", to: "matches#claim"
+        post "submit_report", to: "matches#submit_report"
       end
     end
-    get "history", to: "matches#history" # View past officiated matches
+    get "history", to: "matches#history"
     concerns :dashboardable
   end
 
   # Fans/Viewers Routes
   namespace :fans do
     resources :leagues, only: [:index, :show] do
-      resources :standings, only: [:index] # View standings for a specific league
+      resources :standings, only: [:index]
     end
-    resources :matches, only: [:index, :show] # View match schedules and results
-    resources :teams, only: [:index] # List teams and profiles
+    resources :matches, only: [:index, :show]
+    resources :teams, only: [:index]
   end
 
   # Error Pages
