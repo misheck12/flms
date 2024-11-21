@@ -19,7 +19,7 @@ Rails.application.routes.draw do
     resources :referees
     resources :matches, only: [:index, :show, :edit, :update, :destroy]
     resources :notifications, only: [:index, :create, :destroy]
-    concerns :dashboardable
+    concerns :dashboard
   end
 
   # Team Dashboard
@@ -36,7 +36,7 @@ Rails.application.routes.draw do
       end
     end
     resources :profiles, only: [:show, :update]
-    concerns :dashboardable
+    concerns :dashboard
   end
 
   # Referee Dashboard
@@ -48,7 +48,7 @@ Rails.application.routes.draw do
       end
     end
     get "history", to: "matches#history"
-    concerns :dashboardable
+    concerns :dashboard
   end
 
   # Fans/Viewers Routes
