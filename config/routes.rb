@@ -1,18 +1,13 @@
 Rails.application.routes.draw do
-  get 'sessions/new'
-  get 'sessions/create'
-  get 'sessions/destroy'
-  
-
   # Root Path (Landing Page)
   root "home#home"
 
-  devise_for :users
-
-  # Concerns for Shared Routes
-  concern :dashboardable do
-    get "dashboard", to: "dashboard#index", as: :dashboard
-  end
+  # Devise Routes with Custom Path Names
+  devise_for :users, path: '', path_names: {
+    sign_in: 'login',
+    sign_out: 'logout',
+    sign_up: 'register'
+  }
 
   # Admin Dashboard
   namespace :admin do
@@ -69,6 +64,6 @@ Rails.application.routes.draw do
   match "/404", to: "errors#not_found", via: :all
   match "/500", to: "errors#internal_server_error", via: :all
 
-  # Catch-All Route for Undefined Paths (Optional)
+  # Catch-All Route for Undefined Paths (Place at End)
   match "*path", to: "errors#not_found", via: :all
 end
