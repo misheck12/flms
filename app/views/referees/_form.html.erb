@@ -1,0 +1,36 @@
+<%= form_with(model: referee, local: true) do |form| %>
+  <% if referee.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(referee.errors.count, "error") %> prohibited this referee from being saved:</h2>
+      <ul>
+        <% referee.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :user_id, 'User' %><br>
+    <%= form.collection_select :user_id, User.all, :id, :name, prompt: 'Select User' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :certification_level %><br>
+    <%= form.select :certification_level, Referee.certification_levels.keys.map { |level| [level.capitalize, level] }, prompt: 'Select Certification Level' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :experience_years %><br>
+    <%= form.number_field :experience_years %>
+  </div>
+
+  <div class="field">
+    <%= form.label :bio %><br>
+    <%= form.text_area :bio, rows: 5 %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

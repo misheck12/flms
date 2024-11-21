@@ -1,0 +1,51 @@
+<%= form_with(model: [@league, @standing], local: true) do |form| %>
+  <% if @standing.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@standing.errors.count, "error") %> prohibited this standing from being saved:</h2>
+      <ul>
+        <% @standing.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :team_id, 'Team' %><br>
+    <%= form.collection_select :team_id, @league.teams.order(:name), :id, :name, prompt: 'Select a Team' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :wins %><br>
+    <%= form.number_field :wins %>
+  </div>
+
+  <div class="field">
+    <%= form.label :draws %><br>
+    <%= form.number_field :draws %>
+  </div>
+
+  <div class="field">
+    <%= form.label :losses %><br>
+    <%= form.number_field :losses %>
+  </div>
+
+  <div class="field">
+    <%= form.label :goals_scored, 'Goals For (GF)' %><br>
+    <%= form.number_field :goals_scored %>
+  </div>
+
+  <div class="field">
+    <%= form.label :goals_conceded, 'Goals Against (GA)' %><br>
+    <%= form.number_field :goals_conceded %>
+  </div>
+
+  <div class="field">
+    <%= form.label :disciplinary_points %><br>
+    <%= form.number_field :disciplinary_points %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

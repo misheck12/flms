@@ -1,0 +1,44 @@
+<h1>Standing Details</h1>
+
+<p>
+  <strong>Team:</strong>
+  <%= @standing.team.name %>
+</p>
+
+<p>
+  <strong>Wins:</strong>
+  <%= @standing.wins %>
+</p>
+
+<p>
+  <strong>Draws:</strong>
+  <%= @standing.draws %>
+</p>
+
+<p>
+  <strong>Losses:</strong>
+  <%= @standing.losses %>
+</p>
+
+<p>
+  <strong>Goals Scored (GF):</strong>
+  <%= @standing.goals_scored %>
+</p>
+
+<p>
+  <strong>Goals Conceded (GA):</strong>
+  <%= @standing.goals_conceded %>
+</p>
+
+<p>
+  <strong>Goal Difference (GD):</strong>
+  <%= @standing.goal_difference %>
+</p>
+
+<p>
+  <strong>Points:</strong>
+  <%= @standing.points %>
+</p>
+
+<%= link_to 'Edit', edit_league_league_standing_path(@league, @standing) %> |
+<%= link_to 'Back to Standings', league_league_standings_path(@league) %>

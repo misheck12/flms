@@ -1,0 +1,88 @@
+<h1>Match Report Details</h1>
+
+<p>
+  <strong>Match:</strong>
+  <%= link_to @match_report.match.name, [@match_report.league, @match_report.match] %>
+</p>
+
+<p>
+  <strong>Referee:</strong>
+  <%= @match_report.referee.name %>
+</p>
+
+<p>
+  <strong>Home Team Goals:</strong>
+  <%= @match_report.home_team_goals %>
+</p>
+
+<p>
+  <strong>Away Team Goals:</strong>
+  <%= @match_report.away_team_goals %>
+</p>
+
+<p>
+  <strong>Report Details:</strong><br>
+  <%= simple_format(@match_report.report_details) %>
+</p>
+
+<p>
+  <strong>Notable Incidents:</strong><br>
+  <%= simple_format(@match_report.notable_incidents) %>
+</p>
+
+<hr>
+
+<h2>Goals</h2>
+<% if @match_report.goals.any? %>
+  <table>
+    <thead>
+      <tr>
+        <th>Scorer</th>
+        <th>Assist</th>
+        <th>Minute</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @match_report.goals.each do |goal| %>
+        <tr>
+          <td><%= goal.player.name %></td>
+          <td><%= goal.assist_player&.name || 'N/A' %></td>
+          <td><%= goal.minute %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>No goals recorded.</p>
+<% end %>
+
+<hr>
+
+<h2>Cards</h2>
+<% if @match_report.cards.any? %>
+  <table>
+    <thead>
+      <tr>
+        <th>Player</th>
+        <th>Card Type</th>
+        <th>Minute</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @match_report.cards.each do |card| %>
+        <tr>
+          <td><%= card.player.name %></td>
+          <td><%= card.card_type.capitalize %></td>
+          <td><%= card.minute %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>No cards recorded.</p>
+<% end %>
+
+<hr>
+
+<%= link_to 'Edit', edit_league_match_report_path(@match_report.league, @match_report) %> |
+<%= link_to 'Back to Match Reports', league_match_reports_path(@match_report.league) %>

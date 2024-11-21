@@ -1,0 +1,46 @@
+<h1>Team History Details for <%= @team.name %> - <%= @team_history.season_year %></h1>
+
+<p>
+  <strong>Season Year:</strong>
+  <%= @team_history.season_year %>
+</p>
+
+<p>
+  <strong>Position in League:</strong>
+  <%= @team_history.position_in_league %>
+</p>
+
+<p>
+  <strong>Wins:</strong>
+  <%= @team_history.wins %>
+</p>
+
+<p>
+  <strong>Draws:</strong>
+  <%= @team_history.draws %>
+</p>
+
+<p>
+  <strong>Losses:</strong>
+  <%= @team_history.losses %>
+</p>
+
+<p>
+  <strong>Goals For:</strong>
+  <%= @team_history.goals_for %>
+</p>
+
+<p>
+  <strong>Goals Against:</strong>
+  <%= @team_history.goals_against %>
+</p>
+
+<p>
+  <strong>Points:</strong>
+  <%= @team_history.points %>
+</p>
+
+<hr>
+
+<%= link_to 'Edit Team History', edit_team_team_history_path(@team, @team_history) %> |
+<%= link_to 'Back to Team Histories', team_team_histories_path(@team) %>

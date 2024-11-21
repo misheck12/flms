@@ -1,0 +1,29 @@
+<h1><%= @team.name %> Players</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Number</th>
+      <th>Name</th>
+      <th>Position</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @players.each do |player| %>
+      <tr>
+        <td><%= player.number %></td>
+        <td><%= link_to player.name, [@league, @team, player] %></td>
+        <td><%= player.position.capitalize %></td>
+        <td><%= link_to 'Show', [@league, @team, player] %></td>
+        <td><%= link_to 'Edit', edit_league_team_player_path(@league, @team, player) %></td>
+        <td><%= link_to 'Delete', [@league, @team, player], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Player', new_league_team_player_path(@league, @team) %> |
+<%= link_to 'Back to Team', league_team_path(@league, @team) %>

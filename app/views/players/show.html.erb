@@ -1,0 +1,85 @@
+<h1>Player Details</h1>
+
+<p>
+  <strong>Name:</strong>
+  <%= @player.name %>
+</p>
+
+<p>
+  <strong>Number:</strong>
+  <%= @player.number %>
+</p>
+
+<p>
+  <strong>Position:</strong>
+  <%= @player.position.capitalize %>
+</p>
+
+<hr>
+
+<h2>Statistics</h2>
+<ul>
+  <li>Total Goals: <%= @player.total_goals %></li>
+  <li>Total Assists: <%= @player.total_assists %></li>
+  <li>Yellow Cards: <%= @player.yellow_cards %></li>
+  <li>Red Cards: <%= @player.red_cards %></li>
+  <li>Disciplinary Points: <%= @player.disciplinary_points %></li>
+  <li>Matches Played: <%= @player.matches_played %></li>
+</ul>
+
+<hr>
+
+<h2>Goals</h2>
+<% if @player.goals.any? %>
+  <table>
+    <thead>
+      <tr>
+        <th>Match</th>
+        <th>Minute</th>
+        <th>Assist</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @player.goals.each do |goal| %>
+        <tr>
+          <td><%= link_to goal.match_report.match.name, [@league, goal.match_report.match] %></td>
+          <td><%= goal.minute %></td>
+          <td><%= goal.assist_player&.name || 'N/A' %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>No goals recorded.</p>
+<% end %>
+
+<hr>
+
+<h2>Cards</h2>
+<% if @player.cards.any? %>
+  <table>
+    <thead>
+      <tr>
+        <th>Match</th>
+        <th>Card Type</th>
+        <th>Minute</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @player.cards.each do |card| %>
+        <tr>
+          <td><%= link_to card.match_report.match.name, [@league, card.match_report.match] %></td>
+          <td><%= card.card_type.capitalize %></td>
+          <td><%= card.minute %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>No cards recorded.</p>
+<% end %>
+
+<hr>
+
+<%= link_to 'Edit Player', edit_league_team_player_path(@league, @team, @player) %> |
+<%= link_to 'Back to Players', league_team_players_path(@league, @team) %>

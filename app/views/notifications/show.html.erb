@@ -1,0 +1,15 @@
+<h1>Notification Details</h1>
+
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title"><%= @notification.title %></h5>
+    <h6 class="card-subtitle mb-2 text-muted"><%= @notification.notification_type.humanize %></h6>
+    <p class="card-text"><%= @notification.body %></p>
+    <p class="card-text"><small class="text-muted">Received at <%= @notification.created_at.strftime("%B %d, %Y at %I:%M %p") %></small></p>
+    <% if @notification.unread? %>
+      <%= link_to 'Mark as Read', mark_as_read_notification_path(@notification), method: :patch, class: "btn btn-primary" %>
+    <% end %>
+    <%= link_to 'Back to Notifications', notifications_path, class: "btn btn-secondary" %>
+    <%= link_to 'Delete Notification', notification_path(@notification), method: :delete, data: { confirm: 'Are you sure you want to delete this notification?' }, class: "btn btn-danger" %>
+  </div>
+</div>

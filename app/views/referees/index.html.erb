@@ -1,0 +1,28 @@
+<h1>Referees</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Certification Level</th>
+      <th>Experience Years</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @referees.each do |referee| %>
+      <tr>
+        <td><%= referee.user.name %></td>
+        <td><%= referee.certification_level.capitalize %></td>
+        <td><%= referee.experience_years %></td>
+        <td><%= link_to 'Show', referee %></td>
+        <td><%= link_to 'Edit', edit_referee_path(referee) %></td>
+        <td><%= link_to 'Delete', referee, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Referee', new_referee_path %>

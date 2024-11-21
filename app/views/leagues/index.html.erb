@@ -1,0 +1,30 @@
+<h1>Leagues</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Start Date</th>
+      <th>End Date</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @leagues.each do |league| %>
+      <tr>
+        <td><%= league.name %></td>
+        <td><%= truncate(league.description, length: 50) %></td>
+        <td><%= league.start_date.strftime("%B %d, %Y") if league.start_date %></td>
+        <td><%= league.end_date.strftime("%B %d, %Y") if league.end_date %></td>
+        <td><%= link_to 'Show', league %></td>
+        <td><%= link_to 'Edit', edit_league_path(league) %></td>
+        <td><%= link_to 'Destroy', league, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New League', new_league_path %>

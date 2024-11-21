@@ -1,0 +1,37 @@
+<h1>Notifications</h1>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Type</th>
+      <th>Received At</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @notifications.each do |notification| %>
+      <tr class="<%= 'table-info' if notification.unread? %>">
+        <td><%= link_to notification.title, notification_path(notification) %></td>
+        <td><%= notification.notification_type.humanize %></td>
+        <td><%= notification.created_at.strftime("%B %d, %Y at %I:%M %p") %></td>
+        <td>
+          <% if notification.unread? %>
+            <span class="badge bg-warning text-dark">Unread</span>
+          <% else %>
+            <span class="badge bg-success">Read</span>
+          <% end %>
+        </td>
+        <td>
+          <% if notification.unread? %>
+            <%= link_to 'Mark as Read', mark_as_read_notification_path(notification), method: :patch, class: "btn btn-sm btn-outline-primary" %>
+          <% end %>
+          <%= link_to 'Delete', notification_path(notification), method: :delete, data: { confirm: 'Are you sure you want to delete this notification?' }, class: "btn btn-sm btn-outline-danger" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= paginate @notifications %>

@@ -1,0 +1,35 @@
+<h1>Referee Details</h1>
+
+<p>
+  <strong>User:</strong>
+  <%= @referee.user.name %>
+</p>
+
+<p>
+  <strong>Certification Level:</strong>
+  <%= @referee.certification_level.capitalize %>
+</p>
+
+<p>
+  <strong>Experience Years:</strong>
+  <%= @referee.experience_years %>
+</p>
+
+<p>
+  <strong>Bio:</strong><br>
+  <%= simple_format(@referee.bio) %>
+</p>
+
+<hr>
+
+<h2>Statistics</h2>
+<ul>
+  <li>Total Matches Officiated: <%= @referee.total_matches_officiated %></li>
+  <li>Average Goals per Match: <%= @referee.average_goals_per_match %></li>
+  <li>Most Recent Match: <%= @referee.recent_match ? link_to(@referee.recent_match.name, @referee.recent_match) : 'N/A' %></li>
+</ul>
+
+<hr>
+
+<%= link_to 'Edit Referee', edit_referee_path(@referee) %> |
+<%= link_to 'Back to Referees', referees_path %>

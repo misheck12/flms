@@ -1,0 +1,16 @@
+<h1>User Details</h1>
+
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title"><%= @user.email %></h5>
+    <p class="card-text"><strong>Role:</strong> <%= @user.role.humanize %></p>
+    <% if @user.team %>
+      <p class="card-text"><strong>Team:</strong> <%= link_to @user.team.name, team_path(@user.team) %></p>
+    <% end %>
+    <% if @user.referee_profile %>
+      <p class="card-text"><strong>Referee Profile:</strong> <%= link_to 'View Profile', referee_path(@user.referee_profile) %></p>
+    <% end %>
+    <%= link_to 'Edit', edit_user_path(@user), class: "btn btn-warning" if policy(@user).update? %>
+    <%= link_to 'Back to Users', users_path, class: "btn btn-secondary" %>
+  </div>
+</div>

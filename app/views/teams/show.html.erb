@@ -1,0 +1,63 @@
+<h1><%= @team.name %> Details</h1>
+
+<p>
+  <strong>League:</strong>
+  <%= @team.league.name %>
+</p>
+
+<p>
+  <strong>City:</strong>
+  <%= @team.city %>
+</p>
+
+<p>
+  <strong>Stadium:</strong>
+  <%= @team.stadium %>
+</p>
+
+<p>
+  <strong>Foundation Year:</strong>
+  <%= @team.foundation_year %>
+</p>
+
+<p>
+  <strong>President:</strong>
+  <%= @team.president %>
+</p>
+
+<p>
+  <strong>Manager:</strong>
+  <%= @team.manager %>
+</p>
+
+<hr>
+
+<h2>Team Statistics</h2>
+<ul>
+  <li>Total Points: <%= @team.total_points %></li>
+  <li>Average Position: <%= @team.average_position %></li>
+  <li>Most Successful Season: 
+    <% if @team.most_successful_season %>
+      <%= link_to @team.most_successful_season.season_year, league_team_team_history_path(@team.league, @team, @team.most_successful_season) %> (<%= @team.most_successful_season.points %> points)
+    <% else %>
+      N/A
+    <% end %>
+  </li>
+  <li>Least Successful Season: 
+    <% if @team.least_successful_season %>
+      <%= link_to @team.least_successful_season.season_year, league_team_team_history_path(@team.league, @team, @team.least_successful_season) %> (<%= @team.least_successful_season.points %> points)
+    <% else %>
+      N/A
+    <% end %>
+  </li>
+</ul>
+
+<hr>
+
+<h2>Team Histories</h2>
+<%= link_to 'View Team Histories', league_team_team_histories_path(@team.league, @team) %>
+
+<hr>
+
+<%= link_to 'Edit Team', edit_league_team_path(@team.league, @team) %> |
+<%= link_to 'Back to Teams', league_teams_path(@team.league) %>

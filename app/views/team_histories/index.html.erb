@@ -1,0 +1,39 @@
+<h1><%= @team.name %> Team Histories</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Season Year</th>
+      <th>Position in League</th>
+      <th>Wins</th>
+      <th>Draws</th>
+      <th>Losses</th>
+      <th>Goals For</th>
+      <th>Goals Against</th>
+      <th>Points</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @team_histories.each do |history| %>
+      <tr>
+        <td><%= history.season_year %></td>
+        <td><%= history.position_in_league %></td>
+        <td><%= history.wins %></td>
+        <td><%= history.draws %></td>
+        <td><%= history.losses %></td>
+        <td><%= history.goals_for %></td>
+        <td><%= history.goals_against %></td>
+        <td><%= history.points %></td>
+        <td><%= link_to 'Show', [@team, history] %></td>
+        <td><%= link_to 'Edit', edit_team_team_history_path(@team, history) %></td>
+        <td><%= link_to 'Delete', [@team, history], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Team History', new_team_team_history_path(@team) %> |
+<%= link_to 'Back to Team', team_path(@team) %>

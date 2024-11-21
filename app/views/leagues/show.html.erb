@@ -1,0 +1,43 @@
+<h1><%= @league.name %></h1>
+
+<p>
+  <strong>Description:</strong><br>
+  <%= simple_format(@league.description) %>
+</p>
+
+<p>
+  <strong>Start Date:</strong>
+  <%= @league.start_date.strftime("%B %d, %Y") if @league.start_date %>
+</p>
+
+<p>
+  <strong>End Date:</strong>
+  <%= @league.end_date.strftime("%B %d, %Y") if @league.end_date %>
+</p>
+
+<p>
+  <strong>Rules:</strong><br>
+  <%= simple_format(@league.rules) %>
+</p>
+
+<hr>
+
+<h2>Teams in this League</h2>
+
+<% if @league.teams.any? %>
+  <ul>
+    <% @league.teams.each do |team| %>
+      <li>
+        <%= link_to team.name, team_path(team) %>
+        (<%= team.matches_played %> matches played)
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No teams have been added to this league yet.</p>
+<% end %>
+
+<hr>
+
+<%= link_to 'Edit League', edit_league_path(@league) %> |
+<%= link_to 'Back to Leagues', leagues_path %>

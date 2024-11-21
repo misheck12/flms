@@ -1,0 +1,51 @@
+<%= form_with(model: [@team, team_history], local: true) do |form| %>
+  <% if team_history.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(team_history.errors.count, "error") %> prohibited this team history from being saved:</h2>
+      <ul>
+        <% team_history.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :season_year %><br>
+    <%= form.number_field :season_year, min: 1900 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :position_in_league %><br>
+    <%= form.number_field :position_in_league, min: 1 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :wins %><br>
+    <%= form.number_field :wins, min: 0 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :draws %><br>
+    <%= form.number_field :draws, min: 0 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :losses %><br>
+    <%= form.number_field :losses, min: 0 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :goals_for %><br>
+    <%= form.number_field :goals_for, min: 0 %>
+  </div>
+
+  <div class="field">
+    <%= form.label :goals_against %><br>
+    <%= form.number_field :goals_against, min: 0 %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,32 @@
+<h1>Users</h1>
+
+<%= link_to 'New User', new_user_path, class: "btn btn-primary mb-3" if policy(User).create? %>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Email</th>
+      <th>Role</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.email %></td>
+        <td><%= user.role.humanize %></td>
+        <td>
+          <%= link_to 'Show', user_path(user), class: "btn btn-info btn-sm" %>
+          <% if policy(user).update? %>
+            <%= link_to 'Edit', edit_user_path(user), class: "btn btn-warning btn-sm" %>
+          <% end %>
+          <% if policy(user).destroy? %>
+            <%= link_to 'Delete', user_path(user), method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger btn-sm" %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= paginate @users %>

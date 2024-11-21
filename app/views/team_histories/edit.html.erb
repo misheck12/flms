@@ -1,0 +1,6 @@
+<h1>Edit Team History for <%= @team.name %> - <%= @team_history.season_year %></h1>
+
+<%= render 'form', team_history: @team_history %>
+
+<%= link_to 'Show Team History', [@team, @team_history] %> |
+<%= link_to 'Back to Team Histories', team_team_histories_path(@team) %>

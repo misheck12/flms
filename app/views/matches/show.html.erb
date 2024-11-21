@@ -1,0 +1,61 @@
+<h1>Match Details</h1>
+
+<p>
+  <strong>Date:</strong>
+  <%= @match.date.strftime("%B %d, %Y %I:%M %p") %>
+</p>
+
+<p>
+  <strong>Venue:</strong>
+  <%= @match.venue %>
+</p>
+
+<p>
+  <strong>Home Team:</strong>
+  <%= @match.home_team.name %>
+</p>
+
+<p>
+  <strong>Away Team:</strong>
+  <%= @match.away_team.name %>
+</p>
+
+<hr>
+
+<h2>Match Report</h2>
+<% if @match_report %>
+  <p>
+    <strong>Referee:</strong>
+    <%= @match_report.referee.name %>
+  </p>
+
+  <p>
+    <strong>Home Team Goals:</strong>
+    <%= @match_report.home_team_goals %>
+  </p>
+
+  <p>
+    <strong>Away Team Goals:</strong>
+    <%= @match_report.away_team_goals %>
+  </p>
+
+  <p>
+    <strong>Report Details:</strong><br>
+    <%= simple_format(@match_report.report_details) %>
+  </p>
+
+  <p>
+    <strong>Notable Incidents:</strong><br>
+    <%= simple_format(@match_report.notable_incidents) %>
+  </p>
+
+  <%= link_to 'View Report', league_match_report_path(@league, @match_report) if @match_report %>
+<% else %>
+  <p>No match report available.</p>
+  <%= link_to 'Add Match Report', new_league_match_report_path(@league, @match) %>
+<% end %>
+
+<hr>
+
+<%= link_to 'Edit Match', edit_league_match_path(@league, @match) %> |
+<%= link_to 'Back to Matches', league_matches_path(@league) %>
