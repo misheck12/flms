@@ -1,0 +1,18 @@
+/* app/assets/stylesheets/dashboard.css */
+
+.navbar-dashboard {
+  background-color: #f8f9fa; /* Light gray background */
+  border-bottom: 2px solid #dee2e6; /* Subtle border */
+}
+
+.navbar-dashboard .nav-link {
+  color: #495057; /* Darker text for readability */
+}
+
+.navbar-dashboard .nav-link:hover {
+  color: #007bff; /* Bootstrap primary color on hover */
+}
+
+.dashboard-content {
+  padding: 20px;
+}
