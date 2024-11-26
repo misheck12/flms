@@ -3,10 +3,8 @@ Rails.application.routes.draw do
   root "home#home"
 
   # Devise Authentication Routes with Custom Path Names and Registrations Controller
-  devise_for :users, 
-             path: '', 
-             path_names: { sign_in: 'login', sign_out: 'logout', registration: 'register' },
-             controllers: { registrations: 'registrations' } # Point to your custom controller
+  devise_for :users, controllers: { registrations: 'registrations' }
+
 
 
   # Dashboard and Admin Routes
