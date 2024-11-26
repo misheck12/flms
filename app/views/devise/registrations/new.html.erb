@@ -64,7 +64,7 @@
 
               <div class="form-group">
                 <%= f.label :league %>
-                <%= f.collection_select :league_id, League.all, :id, :name, { prompt: "Select League" }, { include_blank: true }, class: "form-control" %>
+                <%= f.collection_select :league_id, League.all, :id, :name, { prompt: "Select League", include_blank: true }, { class: "form-control" } %>
               </div>
             </div>
 
