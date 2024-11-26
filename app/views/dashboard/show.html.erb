@@ -1,6 +1,8 @@
 <!-- app/views/dashboards/show.html.erb -->
 
-<div class="dashboard">
+<%= render 'dashboard_nav' %>
+
+<div class="dashboard-content">
   <h1>Welcome, <%= current_user.name %>!</h1>
 
   <% if current_user.admin? %>
