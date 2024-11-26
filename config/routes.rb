@@ -9,8 +9,12 @@ Rails.application.routes.draw do
     registration: 'register'
   }
 
-  # Central Dashboard Route
-  get "dashboard", to: "dashboards#show", as: :dashboard
+
+  # Dashboard and Admin Routes
+  get 'dashboard', to: 'dashboards#show', as: :dashboard
+  get 'admin/dashboard', to: 'admin_dashboards#show', as: :admin_dashboard
+  get 'team/dashboard', to: 'team_dashboards#show', as: :team_dashboard
+  get 'referee/dashboard', to: 'referee_dashboards#show', as: :referee_dashboard
 
   # Admin Namespace
   namespace :admin do
