@@ -4,7 +4,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   # Roles enumeration
-  enum role: { admin: 0, team_manager: 1, referee: 2 }
+  enum role: { admin: 0, team: 1, referee: 2 }
 
   # Associations
   has_one :team, dependent: :nullify
@@ -19,7 +19,7 @@ class User < ApplicationRecord
 
   # Scopes
   scope :admins, -> { where(role: :admin) }
-  scope :team_managers, -> { where(role: :team_manager) }
+  scope :team_managers, -> { where(role: :team) }
   scope :referees, -> { where(role: :referee) }
 
   # Instance Methods
@@ -30,8 +30,8 @@ class User < ApplicationRecord
   end
 
   # Check if the user is a team manager
-  def team_manager?
-    role == 'team_manager'
+  def team?
+    role == 'team'
   end
 
   # Check if the user is a referee
@@ -43,6 +43,6 @@ class User < ApplicationRecord
 
   # Set default role to referee if not specified
   def set_default_role
-    self.role ||= :referee
+    self.role ||= :team
   end
 end
