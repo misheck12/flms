@@ -4,3 +4,7 @@ import "controllers"
 //= require jquery3
 //= require popper
 //= require bootstrap-sprockets
+//= require bootstrap.bundle
+//= require rails-ujs
+//= require turbolinks
+//= require_tree .
