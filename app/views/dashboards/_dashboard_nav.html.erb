@@ -1,65 +1,101 @@
 <!-- app/views/dashboards/_dashboard_nav.html.erb -->
 
-<nav class="navbar navbar-expand-lg navbar-dashboard mb-4">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
+    <!-- Brand -->
     <a class="navbar-brand" href="<%= dashboard_path %>">Dashboard</a>
+    
+    <!-- Toggler for responsive collapse -->
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#dashboardNavbar" 
             aria-controls="dashboardNavbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
+    <!-- Collapsible content -->
     <div class="collapse navbar-collapse" id="dashboardNavbar">
-      <ul class="navbar-nav mr-auto">
-        <% if current_user.admin? %>
-          <li class="nav-item <%= 'active' if params[:controller].start_with?('admin/') %>">
-            <%= link_to 'Manage Leagues', admin_leagues_path, class: 'nav-link' %>
-          </li>
-          <li class="nav-item <%= 'active' if params[:controller].start_with?('admin/') %>">
-            <%= link_to 'Manage Teams', admin_teams_path, class: 'nav-link' %>
-          </li>
-          <li class="nav-item <%= 'active' if params[:controller].start_with?('admin/') %>">
-            <%= link_to 'Manage Players', admin_players_path, class: 'nav-link' %>
-          </li>
-          <li class="nav-item <%= 'active' if params[:controller].start_with?('admin/') %>">
-            <%= link_to 'Manage Referees', admin_referees_path, class: 'nav-link' %>
-          </li>
-          <li class="nav-item <%= 'active' if params[:controller].start_with?('admin/') %>">
-            <%= link_to 'Manage Matches', admin_matches_path, class: 'nav-link' %>
-          </li>
-          <li class="nav-item <%= 'active' if params[:controller].start_with?('admin/') %>">
-            <%= link_to 'Manage Notifications', admin_notifications_path, class: 'nav-link' %>
-          </li>
-        <% end %>
+      <div class="w-100">
+        <div class="row">
+          <!-- Sidebar Column -->
+          <div class="col-md-3">
+            <ul class="navbar-nav flex-column">
+              <% if current_user.admin? %>
+                <li class="nav-item">
+                  <h5 class="mt-3">Admin Panel</h5>
+                </li>
+                <li class="nav-item">
+                  <%= link_to 'Manage Leagues', admin_leagues_path, class: 'nav-link' %>
+                </li>
+                <li class="nav-item">
+                  <%= link_to 'Manage Teams', admin_teams_path, class: 'nav-link' %>
+                </li>
+                <li class="nav-item">
+                  <%= link_to 'Manage Players', admin_players_path, class: 'nav-link' %>
+                </li>
+                <li class="nav-item">
+                  <%= link_to 'Manage Referees', admin_referees_path, class: 'nav-link' %>
+                </li>
+                <li class="nav-item">
+                  <%= link_to 'Manage Matches', admin_matches_path, class: 'nav-link' %>
+                </li>
+                <li class="nav-item">
+                  <%= link_to 'Manage Notifications', admin_notifications_path, class: 'nav-link' %>
+                </li>
+              <% end %>
 
-        <% if current_user.team? %>
-          <li class="nav-item <%= 'active' if params[:controller].start_with?('team/') %>">
-            <%= link_to 'Your Players', team_players_path, class: 'nav-link' %>
-          </li>
-          <li class="nav-item <%= 'active' if params[:controller].start_with?('team/') %>">
-            <%= link_to 'Your Matches', team_matches_path, class: 'nav-link' %>
-          </li>
-          <li class="nav-item <%= 'active' if params[:controller].start_with?('team/') %>">
-            <%= link_to 'Your Profile', team_profiles_path(current_user.team_id), class: 'nav-link' %>
-          </li>
-          <li class="nav-item <%= 'active' if params[:controller].start_with?('team/') %>">
-            <%= link_to 'Player Statistics', team_stats_path, class: 'nav-link' %>
-          </li>
-        <% end %>
+              <% if current_user.team? %>
+                <li class="nav-item <%= 'active' if params[:controller].start_with?('team/') %>">
+                  <%= link_to 'Your Players', team_players_path, class: 'nav-link' %>
+                </li>
+                <li class="nav-item <%= 'active' if params[:controller].start_with?('team/') %>">
+                  <%= link_to 'Your Matches', team_matches_path, class: 'nav-link' %>
+                </li>
+                <li class="nav-item <%= 'active' if params[:controller].start_with?('team/') %>">
+                  <%= link_to 'Your Profile', team_profiles_path(current_user.team_id), class: 'nav-link' %>
+                </li>
+                <li class="nav-item <%= 'active' if params[:controller].start_with?('team/') %>">
+                  <%= link_to 'Player Statistics', team_stats_path, class: 'nav-link' %>
+                </li>
+              <% end %>
 
-        <% if current_user.referee? %>
-          <li class="nav-item <%= 'active' if params[:controller].start_with?('referee/') %>">
-            <%= link_to 'Manage Matches', referee_matches_path, class: 'nav-link' %>
-          </li>
-          <li class="nav-item <%= 'active' if params[:controller].start_with?('referee/') %>">
-            <%= link_to 'Match History', referee_history_path, class: 'nav-link' %>
-          </li>
-        <% end %>
-      </ul>
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-         <%= button_to 'Logout', destroy_user_session_path, method: :delete, class: 'btn btn-outline-danger', form: { class: 'd-inline' } %>
-        </li>
-      </ul>
+              <% if current_user.referee? %>
+                <li class="nav-item">
+                  <h5 class="mt-4">Referee Panel</h5>
+                </li>
+                <li class="nav-item">
+                  <%= link_to 'Manage Matches', referee_matches_path, class: 'nav-link' %>
+                </li>
+                <li class="nav-item">
+                  <%= link_to 'Match History', referee_history_path, class: 'nav-link' %>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+
+          <!-- Main Content Column -->
+          <div class="col-md-9">
+            <ul class="navbar-nav ml-auto">
+              <% if user_signed_in? %>
+                <li class="nav-item">
+                  <!-- Logout Button -->
+                  <%= button_to 'Logout', destroy_user_session_path, method: :delete, class: 'btn btn-outline-danger', form: { class: 'd-inline' } %>
+                </li>
+              <% else %>
+                <li class="nav-item">
+                  <%= link_to 'Login', new_user_session_path, class: 'btn btn-outline-primary' %>
+                </li>
+                <li class="nav-item">
+                  <%= link_to 'Register', new_user_registration_path, class: 'btn btn-outline-success' %>
+                </li>
+              <% end %>
+            </ul>
+
+            <!-- Optional: Additional Dashboard Content -->
+            <div class="mt-4">
+              <!-- Your main dashboard content can go here -->
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </nav>
