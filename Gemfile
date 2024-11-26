@@ -76,3 +76,4 @@ end
 gem "bootstrap", "~> 5.3"
 gem "jquery-rails", "~> 4.6"
 gem 'stringio', '~> 3.1.2'
+gem "sassc-rails", "~> 2.1"
