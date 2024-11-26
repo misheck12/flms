@@ -1,11 +1,11 @@
 <h1>Team Dashboard</h1>
 
-<p><strong>Team Name:</strong> <%= @team.name %></p>
-<p><strong>City:</strong> <%= @team.city %></p>
-<p><strong>Stadium:</strong> <%= @team.stadium %></p>
-<p><strong>Foundation Year:</strong> <%= @team.foundation_year %></p>
-<p><strong>President:</strong> <%= @team.president %></p>
-<p><strong>Manager:</strong> <%= @team.manager %></p>
+<p><strong>Team Name:</strong> <%= @team.name.present? ? @team.name : 'Not updated' %></p>
+<p><strong>City:</strong> <%= @team.city.present? ? @team.city : 'Not updated' %></p>
+<p><strong>Stadium:</strong> <%= @team.stadium.present? ? @team.stadium : 'Not updated' %></p>
+<p><strong>Foundation Year:</strong> <%= @team.foundation_year.present? ? @team.foundation_year : 'Not updated' %></p>
+<p><strong>President:</strong> <%= @team.president.present? ? @team.president : 'Not updated' %></p>
+<p><strong>Manager:</strong> <%= @team.manager.present? ? @team.manager : 'Not updated' %></p>
 
 <h2>Players</h2>
 <% if @players.any? %>
@@ -15,10 +15,10 @@
     <% end %>
   </ul>
 <% else %>
-  <p>No players found.</p>
+  <p>No players found. <%= link_to 'Create Player Now', new_player_path %></p>
 <% end %>
 
-<h2>Home Matches</h2>
+<h2>Upcoming Home Matches</h2>
 <% if @matches_home.any? %>
   <ul>
     <% @matches_home.each do |match| %>
@@ -29,7 +29,7 @@
   <p>No upcoming home matches.</p>
 <% end %>
 
-<h2>Away Matches</h2>
+<h2>Upcoming Away Matches</h2>
 <% if @matches_away.any? %>
   <ul>
     <% @matches_away.each do |match| %>

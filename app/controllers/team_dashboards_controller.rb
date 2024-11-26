@@ -7,11 +7,16 @@ class TeamDashboardsController < ApplicationController
 
   def show
     @team = current_user.team
-    @players = @team.players
-    @matches = @team.matches
-    @matches_away = @team.matches_away
-    @matches_home = @team.matches_home
-    # Add more team-specific data here
+
+    if @team.present?
+      @players = @team.players
+      @matches_home = @team.matches_home
+      @matches_away = @team.matches_away
+      @matches = @team.matches_home + @team.matches_away
+    else
+      flash[:alert] = 'Team data not found. Please set up your team.'
+      redirect_to edit_user_registration_path
+    end
   end
 
   private
