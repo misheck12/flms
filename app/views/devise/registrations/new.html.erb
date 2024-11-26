@@ -26,10 +26,46 @@
             <!-- Role Selection Field -->
             <div class="form-group">
               <%= f.label :role, "Select Your Role" %>
-              <%= f.select :role, options_for_select([
-                ["Team", "team"],
-                ["Referee", "referee"]
-              ], selected: 'select'), { prompt: "Choose a role" }, class: "form-control" %>
+              <%= f.select :role, User.roles.keys.map { |role| [role.titleize, role] }, { prompt: "Select Role" }, id: "user_role", class: "form-control" %>
+            </div>
+
+            <div id="team_fields" style="display: none;">
+              <h3>Team Information</h3>
+
+              <div class="form-group">
+                <%= f.label :team_name %>
+                <%= f.text_field :team_name, class: "form-control" %>
+              </div>
+
+              <div class="form-group">
+                <%= f.label :team_city %>
+                <%= f.text_field :team_city, class: "form-control" %>
+              </div>
+
+              <div class="form-group">
+                <%= f.label :team_stadium %>
+                <%= f.text_field :team_stadium, class: "form-control" %>
+              </div>
+
+              <div class="form-group">
+                <%= f.label :team_foundation_year %>
+                <%= f.number_field :team_foundation_year, class: "form-control" %>
+              </div>
+
+              <div class="form-group">
+                <%= f.label :team_president %>
+                <%= f.text_field :team_president, class: "form-control" %>
+              </div>
+
+              <div class="form-group">
+                <%= f.label :team_manager %>
+                <%= f.text_field :team_manager, class: "form-control" %>
+              </div>
+
+              <div class="form-group">
+                <%= f.label :league %>
+                <%= f.collection_select :league_id, League.all, :id, :name, { prompt: "Select League" }, { include_blank: true }, class: "form-control" %>
+              </div>
             </div>
 
             <!-- Password Field -->
@@ -64,3 +100,24 @@
     </div>
   </div>
 </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const roleSelect = document.querySelector("#user_role");
+    const teamFields = document.querySelector("#team_fields");
+
+    const toggleTeamFields = () => {
+      if (roleSelect.value === 'team') {
+        teamFields.style.display = 'block';
+      } else {
+        teamFields.style.display = 'none';
+      }
+    };
+
+    // Initial toggle on page load
+    toggleTeamFields();
+
+    // Add event listener to toggle team fields based on role selection
+    roleSelect.addEventListener('change', toggleTeamFields);
+  });
+</script>
