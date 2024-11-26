@@ -1,43 +1,65 @@
 <!-- app/views/dashboards/show.html.erb -->
 
-<%= render 'dashboard_nav' %>
-
-<div class="dashboard-content">
-  <h1>Welcome, <%= current_user.name %>!</h1>
-
-  <% if current_user.admin? %>
-    <div class="admin-section my-4">
-      <h2>Admin Panel</h2>
-      <ul class="list-group">
-        <li class="list-group-item"><%= link_to 'Manage Leagues', admin_leagues_path %></li>
-        <li class="list-group-item"><%= link_to 'Manage Teams', admin_teams_path %></li>
-        <li class="list-group-item"><%= link_to 'Manage Players', admin_players_path %></li>
-        <li class="list-group-item"><%= link_to 'Manage Referees', admin_referees_path %></li>
-        <li class="list-group-item"><%= link_to 'Manage Matches', admin_matches_path %></li>
-        <li class="list-group-item"><%= link_to 'Manage Notifications', admin_notifications_path %></li>
-      </ul>
+<div class="container-fluid">
+  <div class="row">
+    <!-- Sidebar Column -->
+    <div class="col-md-3">
+      <%= render 'dashboard_nav' %>
     </div>
-  <% end %>
 
-  <% if current_user.team? %>
-    <div class="team-section my-4">
-      <h2>Team Panel</h2>
-      <ul class="list-group">
-        <li class="list-group-item"><%= link_to 'Your Players', team_players_path %></li>
-        <li class="list-group-item"><%= link_to 'Your Matches', team_matches_path %></li>
-        <li class="list-group-item"><%= link_to 'Your Profile', team_profiles_path(current_user.team_id) %></li>
-        <li class="list-group-item"><%= link_to 'Player Statistics', team_stats_path %></li>
-      </ul>
-    </div>
-  <% end %>
+    <!-- Main Content Column -->
+    <div class="col-md-9">
+      <div class="dashboard-content">
+        <h1>Welcome, <%= current_user.name %>!</h1>
 
-  <% if current_user.referee? %>
-    <div class="referee-section my-4">
-      <h2>Referee Panel</h2>
-      <ul class="list-group">
-        <li class="list-group-item"><%= link_to 'Manage Matches', referee_matches_path %></li>
-        <li class="list-group-item"><%= link_to 'Match History', referee_history_path %></li>
-      </ul>
-    </div>
-  <% end %>
-</div>
+        <% if current_user.admin? %>
+          <!-- Admin Specific Content (Optional) -->
+          <!-- 
+            If you have additional admin-specific content to display here,
+            you can include it. However, since the admin links are now
+            part of the sidebar, this section can be used for other 
+            dynamic admin content.
+          -->
+        <% end %>
+
+        <% if current_user.referee? %>
+          <!-- Referee Specific Content (Optional) -->
+          <!-- 
+            Similarly, include any referee-specific content here.
+            The referee navigation links are handled in the sidebar.
+          -->
+        <% end %>
+
+        <!-- General Dashboard Content -->
+        <div class="mt-4">
+          <!-- Add any general dashboard widgets, statistics, or information here -->
+          <p>This is your dashboard overview. Here you can manage your activities and access various sections based on your role.</p>
+          
+          <!-- Example Widgets -->
+          <div class="row">
+            <div class="col-md-6">
+              <div class="card mb-4">
+                <div class="card-header">
+                  Recent Activities
+                </div>
+                <div class="card-body">
+                  <p>No recent activities.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card mb-4">
+                <div class="card-header">
+                  Notifications
+                </div>
+                <div class="card-body">
+                  <p>No new notifications.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> <!-- .dashboard-content -->
+    </div> <!-- .col-md-9 -->
+  </div> <!-- .row -->
+</div> <!-- .container-fluid -->
