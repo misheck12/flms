@@ -1,0 +1,63 @@
+<!-- app/views/dashboards/show.html.erb -->
+
+<div class="dashboard">
+  <h1>Welcome, <%= current_user.name %>!</h1>
+
+  <% if current_user.admin? %>
+    <div class="admin-section my-4">
+      <h2>Admin Panel</h2>
+      <ul class="list-group">
+        <li class="list-group-item"><%= link_to 'Manage Leagues', admin_leagues_path %></li>
+        <li class="list-group-item"><%= link_to 'Manage Teams', admin_teams_path %></li>
+        <li class="list-group-item"><%= link_to 'Manage Players', admin_players_path %></li>
+        <li class="list-group-item"><%= link_to 'Manage Referees', admin_referees_path %></li>
+        <li class="list-group-item"><%= link_to 'Manage Matches', admin_matches_path %></li>
+        <li class="list-group-item"><%= link_to 'Manage Notifications', admin_notifications_path %></li>
+      </ul>
+    </div>
+  <% end %>
+
+  <% if current_user.team? %>
+    <div class="team-section my-4">
+      <h2>Team Panel</h2>
+      <ul class="list-group">
+        <li class="list-group-item"><%= link_to 'Your Players', team_players_path %></li>
+        <li class="list-group-item"><%= link_to 'Your Matches', team_matches_path %></li>
+        <li class="list-group-item"><%= link_to 'Your Profile', team_profiles_path(current_user.team_id) %></li>
+        <li class="list-group-item"><%= link_to 'Player Statistics', team_stats_path %></li>
+      </ul>
+    </div>
+  <% end %>
+
+  <% if current_user.referee? %>
+    <div class="referee-section my-4">
+      <h2>Referee Panel</h2>
+      <ul class="list-group">
+        <li class="list-group-item"><%= link_to 'Manage Matches', referee_matches_path %></li>
+        <li class="list-group-item"><%= link_to 'Match History', referee_history_path %></li>
+      </ul>
+    </div>
+  <% end %>
+
+  <% if current_user.fan? %>
+    <div class="fan-section my-4">
+      <h2>Fan Panel</h2>
+      <ul class="list-group">
+        <li class="list-group-item"><%= link_to 'View Leagues', fans_leagues_path %></li>
+        <li class="list-group-item"><%= link_to 'View Matches', fans_matches_path %></li>
+        <li class="list-group-item"><%= link_to 'View Teams', fans_teams_path %></li>
+      </ul>
+    </div>
+  <% end %>
+
+  <% if current_user.member? %>
+    <div class="member-section my-4">
+      <h2>Member Panel</h2>
+      <ul class="list-group">
+        <li class="list-group-item"><%= link_to 'View/Edit Profile', team_profiles_path(current_user.team_id) %></li>
+        <li class="list-group-item"><%= link_to 'View Player Stats', team_stats_path %></li>
+        <li class="list-group-item"><%= link_to 'Manage Team Sheets', team_matches_path %></li>
+      </ul>
+    </div>
+  <% end %>
+</div>
