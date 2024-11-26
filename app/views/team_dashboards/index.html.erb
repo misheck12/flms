@@ -1,2 +1,41 @@
-<h1>TeamDashboards#index</h1>
-<p>Find me in app/views/team_dashboards/index.html.erb</p>
+<h1>Team Dashboard</h1>
+
+<p><strong>Team Name:</strong> <%= @team.name %></p>
+<p><strong>City:</strong> <%= @team.city %></p>
+<p><strong>Stadium:</strong> <%= @team.stadium %></p>
+<p><strong>Foundation Year:</strong> <%= @team.foundation_year %></p>
+<p><strong>President:</strong> <%= @team.president %></p>
+<p><strong>Manager:</strong> <%= @team.manager %></p>
+
+<h2>Players</h2>
+<% if @players.any? %>
+  <ul>
+    <% @players.each do |player| %>
+      <li><%= player.name %> - <%= player.position %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No players found.</p>
+<% end %>
+
+<h2>Home Matches</h2>
+<% if @matches_home.any? %>
+  <ul>
+    <% @matches_home.each do |match| %>
+      <li><%= match.title %> vs <%= match.away_team.name %> on <%= match.date.strftime("%B %d, %Y") %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No upcoming home matches.</p>
+<% end %>
+
+<h2>Away Matches</h2>
+<% if @matches_away.any? %>
+  <ul>
+    <% @matches_away.each do |match| %>
+      <li><%= match.home_team.name %> vs <%= match.title %> on <%= match.date.strftime("%B %d, %Y") %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No upcoming away matches.</p>
+<% end %>

@@ -9,6 +9,8 @@ class TeamDashboardsController < ApplicationController
     @team = current_user.team
     @players = @team.players
     @matches = @team.matches
+    @matches_away = @team.matches_away
+    @matches_home = @team.matches_home
     # Add more team-specific data here
   end
 
