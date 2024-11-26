@@ -1,78 +1,159 @@
 <div class="container-fluid">
   <div class="row">
 
+    <!-- Main Content Column -->
     <div class="col-md-9">
       <div class="dashboard-content">
-        <h1>Welcome, <%= current_user.email %>!</h1>
+        <h1>Welcome, <%= current_user.role %>!</h1>
 
         <% if current_user.admin? %>
           <div class="row">
+            <!-- Leagues Section -->
             <div class="col-md-4">
               <div class="card mb-4">
                 <div class="card-header">Leagues</div>
                 <div class="card-body">
-                  <%= link_to 'View All', admin_leagues_path %> | 
-                  <%= link_to 'Create New', new_admin_league_path %>
+                  <%= link_to 'View All', admin_leagues_path, class: 'btn btn-primary btn-sm mb-2' %>
+                  <%= link_to 'Create New', new_admin_league_path, class: 'btn btn-success btn-sm' %>
                 </div>
               </div>
             </div>
-            <div class="col-md-4">
-              <div class="card mb-4">
-                <div class="card-header">Teams</div>
-                <div class="card-body">
-                  <%= link_to 'View All', admin_teams_path %> | 
-                  <%= link_to 'Create New', new_admin_team_path %>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card mb-4">
-                <div class="card-header">Matches</div>
-                <div class="card-body">
-                  <%= link_to 'View All', admin_matches_path %> | 
-                  <%= link_to 'Create New', new_admin_match_path %>
-                </div>
-              </div>
-            </div>
-          </div> 
-        <% end %>
 
-        <% if current_user.team? %>
-          <h2>Team Dashboard</h2>
-          <div class="row">
-            <div class="col-md-6">
+            <!-- Players Section -->
+            <div class="col-md-4">
               <div class="card mb-4">
-                <div class="card-header">Upcoming Matches</div>
+                <div class="card-header">Players</div>
                 <div class="card-body">
-                  <% if @team_matches.any? %>
-                    <ul>
-                      <% @team_matches.each do |match| %>
-                        <li><%= link_to match.name, team_match_path(match) %></li> 
-                      <% end %>
-                    </ul>
-                  <% else %>
-                    <p>No upcoming matches.</p>
-                  <% end %>
+                  <%= link_to 'View All', admin_players_path, class: 'btn btn-primary btn-sm mb-2' %>
+                  <%= link_to 'Create New', new_admin_player_path, class: 'btn btn-success btn-sm' %>
                 </div>
               </div>
             </div>
-            <div class="col-md-6">
+
+            <!-- Referees Section -->
+            <div class="col-md-4">
               <div class="card mb-4">
-                <div class="card-header">Player Stats</div>
+                <div class="card-header">Referees</div>
                 <div class="card-body">
-                  <%= link_to 'View Player Stats', team_stats_path %>
+                  <%= link_to 'View All', admin_referees_path, class: 'btn btn-primary btn-sm mb-2' %>
+                  <%= link_to 'Create New', new_admin_referee_path, class: 'btn btn-success btn-sm' %>
                 </div>
               </div>
             </div>
           </div>
+
+          <div class="row">
+            <!-- Matches Section -->
+            <div class="col-md-4">
+              <div class="card mb-4">
+                <div class="card-header">Matches</div>
+                <div class="card-body">
+                  <%= link_to 'View All', admin_matches_path, class: 'btn btn-primary btn-sm mb-2' %>
+                  <%= link_to 'Schedule New', new_admin_match_path, class: 'btn btn-success btn-sm' %>
+                </div>
+              </div>
+            </div>
+
+            <!-- Notifications Section -->
+            <div class="col-md-4">
+              <div class="card mb-4">
+                <div class="card-header">Notifications</div>
+                <div class="card-body">
+                  <%= link_to 'View All', admin_notifications_path, class: 'btn btn-primary btn-sm mb-2' %>
+                  <%= link_to 'Send New', new_admin_notification_path, class: 'btn btn-success btn-sm' %>
+                </div>
+              </div>
+            </div>
+
+            <!-- Additional Admin Sections (Optional) -->
+            <!-- Add more admin sections here as needed -->
+          </div>
+        <% end %>
+
+        <% if current_user.team? %>
+          <div class="row">
+            <!-- Your Players Section -->
+            <div class="col-md-4">
+              <div class="card mb-4">
+                <div class="card-header">Your Players</div>
+                <div class="card-body">
+                  <%= link_to 'View Players', team_players_path, class: 'btn btn-primary btn-sm mb-2' %>
+                  <%= link_to 'Add Player', new_team_player_path, class: 'btn btn-success btn-sm' %>
+                </div>
+              </div>
+            </div>
+
+            <!-- Your Matches Section -->
+            <div class="col-md-4">
+              <div class="card mb-4">
+                <div class="card-header">Your Matches</div>
+                <div class="card-body">
+                  <%= link_to 'View Matches', team_matches_path, class: 'btn btn-primary btn-sm mb-2' %>
+                  <%= link_to 'Schedule Match', new_team_match_path, class: 'btn btn-success btn-sm' %>
+                </div>
+              </div>
+            </div>
+
+            <!-- Your Profile Section -->
+            <div class="col-md-4">
+              <div class="card mb-4">
+                <div class="card-header">Your Profile</div>
+                <div class="card-body">
+                  <%= link_to 'View Profile', team_profiles_path(current_user.team_id), class: 'btn btn-primary btn-sm mb-2' %>
+                  <%= link_to 'Edit Profile', edit_team_profile_path(current_user.team_id), class: 'btn btn-warning btn-sm' %>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <!-- Player Statistics Section -->
+            <div class="col-md-4">
+              <div class="card mb-4">
+                <div class="card-header">Player Statistics</div>
+                <div class="card-body">
+                  <%= link_to 'View Stats', team_stats_path, class: 'btn btn-primary btn-sm mb-2' %>
+                  <%= link_to 'Generate Report', generate_team_stats_path, class: 'btn btn-success btn-sm' %>
+                </div>
+              </div>
+            </div>
+
+            <!-- Additional Team Sections (Optional) -->
+            <!-- Add more team sections here as needed -->
+          </div>
         <% end %>
 
         <% if current_user.referee? %>
-          <h2>Referee Dashboard</h2>
-          <p>Upcoming Matches, Recent Reports, etc.</p> 
-        <% end %>
+          <div class="row">
+            <!-- Manage Matches Section -->
+            <div class="col-md-6">
+              <div class="card mb-4">
+                <div class="card-header">Manage Matches</div>
+                <div class="card-body">
+                  <%= link_to 'View Matches', referee_matches_path, class: 'btn btn-primary btn-sm mb-2' %>
+                  <%= link_to 'Assign Referee', assign_referee_matches_path, class: 'btn btn-success btn-sm' %>
+                </div>
+              </div>
+            </div>
 
-      </div> 
-    </div> 
-  </div> 
+            <!-- Match History Section -->
+            <div class="col-md-6">
+              <div class="card mb-4">
+                <div class="card-header">Match History</div>
+                <div class="card-body">
+                  <%= link_to 'View History', referee_history_path, class: 'btn btn-primary btn-sm mb-2' %>
+                  <%= link_to 'Download Reports', download_referee_history_path, class: 'btn btn-success btn-sm' %>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <!-- Additional Referee Sections (Optional) -->
+            <!-- Add more referee sections here as needed -->
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
 </div>
