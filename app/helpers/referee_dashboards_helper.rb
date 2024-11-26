@@ -1,0 +1,2 @@
+module RefereeDashboardsHelper
+end
