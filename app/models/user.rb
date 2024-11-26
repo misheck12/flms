@@ -19,7 +19,7 @@ class User < ApplicationRecord
 
   # Scopes
   scope :admins, -> { where(role: :admin) }
-  scope :team_managers, -> { where(role: :team) }
+  scope :team, -> { where(role: :team) }
   scope :referees, -> { where(role: :referee) }
 
   # Instance Methods
