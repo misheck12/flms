@@ -1,5 +1,6 @@
 class Team < ApplicationRecord
   # Associations
+  belongs_to :user
   belongs_to :league
   has_many :team_histories, dependent: :destroy
   has_many :players, dependent: :nullify
@@ -15,7 +16,7 @@ class Team < ApplicationRecord
   validates :manager, presence: true, length: { maximum: 100 }
 
   # Callbacks
-  before_validation :capitalize_name, :capitalize_city, :capitalize_stadium, :capitalize_president, :capitalize_manager
+  before_validation :capitalize_attributes
 
   # Scopes
   scope :alphabetical, -> { order(name: :asc) }
@@ -47,23 +48,11 @@ class Team < ApplicationRecord
   private
 
   # Capitalize specific attributes for consistency
-  def capitalize_name
+  def capitalize_attributes
     self.name = name.capitalize if name.present?
-  end
-
-  def capitalize_city
     self.city = city.capitalize if city.present?
-  end
-
-  def capitalize_stadium
     self.stadium = stadium.split.map(&:capitalize).join(' ') if stadium.present?
-  end
-
-  def capitalize_president
     self.president = president.split.map(&:capitalize).join(' ') if president.present?
-  end
-
-  def capitalize_manager
     self.manager = manager.split.map(&:capitalize).join(' ') if manager.present?
   end
 end
