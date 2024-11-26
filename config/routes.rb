@@ -1,56 +1,53 @@
 Rails.application.routes.draw do
-  get 'sessions/new'
-  get 'sessions/create'
-  get 'sessions/destroy'
-  
-
   # Root Path (Landing Page)
   root "home#home"
 
-  devise_for :users
+  # Devise Authentication Routes with Custom Path Names
+  devise_for :users, path: '', path_names: {
+    sign_in: 'login',
+    sign_out: 'logout',
+    registration: 'register'
+  }
 
-  # Authentication Routes
-  get "register", to: "users#new", as: :register
-  get "login", to: "sessions#new", as: :login
-  post "login", to: "sessions#create"
-  delete "logout", to: "sessions#destroy", as: :logout
+  # Central Dashboard Route
+  get "dashboard", to: "dashboards#show", as: :dashboard
 
-  # Concerns for Shared Routes
-  concern :dashboardable do
-    get "dashboard", to: "dashboard#index", as: :dashboard
-  end
-
-  # Admin Dashboard
+  # Admin Namespace
   namespace :admin do
     resources :leagues do
       resources :standings, only: [:index]
     end
+
     resources :teams
+
     resources :players, only: [:index, :show, :edit, :update, :destroy]
+
     resources :referees
+
     resources :matches, only: [:index, :show, :edit, :update, :destroy]
+
     resources :notifications, only: [:index, :create, :destroy]
-    concerns :dashboardable
   end
 
-  # Team Dashboard
+  # Team Namespace
   namespace :team do
-    resources :players do
+    resources :players, only: [:index, :show, :create, :destroy] do
       collection do
         get "stats", to: "players#stats"
       end
     end
+
     resources :matches, only: [:index, :show] do
       member do
         get "team_sheet", to: "matches#team_sheet"
         post "submit_team_sheet", to: "matches#submit_team_sheet"
       end
     end
+
     resources :profiles, only: [:show, :update]
-    concerns :dashboardable
   end
 
-  # Referee Dashboard
+  # Referee Namespace
   namespace :referee do
     resources :matches, only: [:index, :show] do
       member do
@@ -58,16 +55,18 @@ Rails.application.routes.draw do
         post "submit_report", to: "matches#submit_report"
       end
     end
+
     get "history", to: "matches#history"
-    concerns :dashboardable
   end
 
-  # Fans/Viewers Routes
+  # Fans/Viewers Namespace
   namespace :fans do
     resources :leagues, only: [:index, :show] do
       resources :standings, only: [:index]
     end
+
     resources :matches, only: [:index, :show]
+
     resources :teams, only: [:index]
   end
 
