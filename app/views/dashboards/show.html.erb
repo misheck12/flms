@@ -1,65 +1,81 @@
-<!-- app/views/dashboards/show.html.erb -->
-
 <div class="container-fluid">
   <div class="row">
-    <!-- Sidebar Column -->
     <div class="col-md-3">
       <%= render 'dashboard_nav' %>
     </div>
 
-    <!-- Main Content Column -->
     <div class="col-md-9">
       <div class="dashboard-content">
         <h1>Welcome, <%= current_user.name %>!</h1>
 
         <% if current_user.admin? %>
-          <!-- Admin Specific Content (Optional) -->
-          <!-- 
-            If you have additional admin-specific content to display here,
-            you can include it. However, since the admin links are now
-            part of the sidebar, this section can be used for other 
-            dynamic admin content.
-          -->
+          <div class="row">
+            <div class="col-md-4">
+              <div class="card mb-4">
+                <div class="card-header">Leagues</div>
+                <div class="card-body">
+                  <%= link_to 'View All', admin_leagues_path %> | 
+                  <%= link_to 'Create New', new_admin_league_path %>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card mb-4">
+                <div class="card-header">Teams</div>
+                <div class="card-body">
+                  <%= link_to 'View All', admin_teams_path %> | 
+                  <%= link_to 'Create New', new_admin_team_path %>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card mb-4">
+                <div class="card-header">Matches</div>
+                <div class="card-body">
+                  <%= link_to 'View All', admin_matches_path %> | 
+                  <%= link_to 'Create New', new_admin_match_path %>
+                </div>
+              </div>
+            </div>
+          </div> 
         <% end %>
 
-        <% if current_user.referee? %>
-          <!-- Referee Specific Content (Optional) -->
-          <!-- 
-            Similarly, include any referee-specific content here.
-            The referee navigation links are handled in the sidebar.
-          -->
-        <% end %>
-
-        <!-- General Dashboard Content -->
-        <div class="mt-4">
-          <!-- Add any general dashboard widgets, statistics, or information here -->
-          <p>This is your dashboard overview. Here you can manage your activities and access various sections based on your role.</p>
-          
-          <!-- Example Widgets -->
+        <% if current_user.team? %>
+          <h2>Team Dashboard</h2>
           <div class="row">
             <div class="col-md-6">
               <div class="card mb-4">
-                <div class="card-header">
-                  Recent Activities
-                </div>
+                <div class="card-header">Upcoming Matches</div>
                 <div class="card-body">
-                  <p>No recent activities.</p>
+                  <% if @team_matches.any? %>
+                    <ul>
+                      <% @team_matches.each do |match| %>
+                        <li><%= link_to match.name, team_match_path(match) %></li> 
+                      <% end %>
+                    </ul>
+                  <% else %>
+                    <p>No upcoming matches.</p>
+                  <% end %>
                 </div>
               </div>
             </div>
             <div class="col-md-6">
               <div class="card mb-4">
-                <div class="card-header">
-                  Notifications
-                </div>
+                <div class="card-header">Player Stats</div>
                 <div class="card-body">
-                  <p>No new notifications.</p>
+                  <%= link_to 'View Player Stats', team_stats_path %>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div> <!-- .dashboard-content -->
-    </div> <!-- .col-md-9 -->
-  </div> <!-- .row -->
-</div> <!-- .container-fluid -->
+        <% end %>
+
+        <% if current_user.referee? %>
+          <h2>Referee Dashboard</h2>
+          <p>Upcoming Matches, Recent Reports, etc.</p> 
+        <% end %>
+
+      </div> 
+    </div> 
+  </div> 
+</div>
