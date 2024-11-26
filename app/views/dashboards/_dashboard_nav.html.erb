@@ -57,7 +57,7 @@
       </ul>
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-         <%= link_to 'Logout', destroy_user_session_path, method: :delete, class: 'btn btn-outline-danger' %> 
+         <%= button_to 'Logout', destroy_user_session_path, method: :delete, class: 'btn btn-outline-danger', form: { class: 'd-inline' } %>
         </li>
       </ul>
     </div>
