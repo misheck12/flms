@@ -1,6 +1,6 @@
 <!-- app/views/dashboards/_dashboard_nav.html.erb -->
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+<nav class="navbar navbar-expand-lg navbar-dashboard mb-4">
   <div class="container-fluid">
     <a class="navbar-brand" href="<%= dashboard_path %>">Dashboard</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#dashboardNavbar" 
@@ -52,30 +52,6 @@
           </li>
           <li class="nav-item <%= 'active' if params[:controller].start_with?('referee/') %>">
             <%= link_to 'Match History', referee_history_path, class: 'nav-link' %>
-          </li>
-        <% end %>
-
-        <% if current_user.fan? %>
-          <li class="nav-item <%= 'active' if params[:controller].start_with?('fans/') %>">
-            <%= link_to 'View Leagues', fans_leagues_path, class: 'nav-link' %>
-          </li>
-          <li class="nav-item <%= 'active' if params[:controller].start_with?('fans/') %>">
-            <%= link_to 'View Matches', fans_matches_path, class: 'nav-link' %>
-          </li>
-          <li class="nav-item <%= 'active' if params[:controller].start_with?('fans/') %>">
-            <%= link_to 'View Teams', fans_teams_path, class: 'nav-link' %>
-          </li>
-        <% end %>
-
-        <% if current_user.member? %>
-          <li class="nav-item <%= 'active' if params[:controller].start_with?('member/') %>">
-            <%= link_to 'View/Edit Profile', team_profiles_path(current_user.team_id), class: 'nav-link' %>
-          </li>
-          <li class="nav-item <%= 'active' if params[:controller].start_with?('member/') %>">
-            <%= link_to 'View Player Stats', team_stats_path, class: 'nav-link' %>
-          </li>
-          <li class="nav-item <%= 'active' if params[:controller].start_with?('member/') %>">
-            <%= link_to 'Manage Team Sheets', team_matches_path, class: 'nav-link' %>
           </li>
         <% end %>
       </ul>
