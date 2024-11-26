@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   devise_for :users, 
              path: '', 
              path_names: { sign_in: 'login', sign_out: 'logout', registration: 'register' },
-             controllers: { registrations: 'registrations' 1  } # Point to your custom controller
+             controllers: { registrations: 'registrations' } # Point to your custom controller
 
 
   # Dashboard and Admin Routes
