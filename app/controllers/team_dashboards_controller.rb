@@ -1,31 +1,21 @@
 class TeamDashboardsController < ApplicationController
-  before_action :authenticate_user!       # Ensure the user is authenticated
-  before_action :ensure_team_user         # Restrict access to users with the "Team" role
-  before_action :set_team, only: [:index, :show, :edit_team_info, :update_team_info]
+  before_action :authenticate_user!
+  before_action :ensure_team_user
+  before_action :set_team
 
   def index
     if @team.present?
       load_team_data
     else
       flash[:alert] = 'No team data found. Please complete your team setup.'
-      redirect_to team_dashboard_path
+      redirect_to edit_team_info_path # Redirect to team setup
     end
   end
 
-  def show
-    if @team.present?
-      load_team_data
-    else
-      flash[:alert] = 'No team data found. Please complete your team setup.'
-      redirect_to team_dashboard_path
-    end
-  end
+  # Since index and show have the same logic, you can remove the show action
 
   def edit_team_info
-    if @team.nil?
-      flash[:alert] = 'No associated team found. Please create a team first.'
-      redirect_to team_dashboard_path
-    end
+    # No need for a conditional here since set_team will handle it
   end
 
   def update_team_info
@@ -38,46 +28,44 @@ class TeamDashboardsController < ApplicationController
   end
 
   def view_league_standings
-    @league = League.find_by(id: params[:league_id])
+    @league = League.find(params[:league_id]) # Use find instead of find_by for simpler error handling
     if @league
       @standings = @league.standings
     else
-      flash[:alert] = 'League not found.'
-      redirect_back(fallback_location: team_dashboard_path)
+      redirect_to team_dashboard_path, alert: 'League not found.' # Redirect with alert
     end
   end
 
   def view_match_report
-    @match = Match.find_by(id: params[:match_id])
+    @match = Match.find(params[:match_id]) # Use find instead of find_by
     if @match
       @report = @match.match_report
     else
-      flash[:alert] = 'Match not found.'
-      redirect_back(fallback_location: team_dashboard_path)
+      redirect_to team_dashboard_path, alert: 'Match not found.' # Redirect with alert
     end
   end
 
   def contact_support
     # Implement contact support functionality here
-    # Example: Render a contact form or send an email to support
   end
 
   private
 
-  # Ensure that only users with the "Team" role can access the dashboard
   def ensure_team_user
     unless current_user&.team?
       flash[:alert] = 'Access denied! Only team accounts can view this dashboard.'
-      redirect_to team_dashboard_path
+      redirect_to root_path # Redirect to root if not a team user
     end
   end
 
-  # Set the @team instance variable based on the current user's team association
   def set_team
     @team = current_user.team
+    if @team.nil?
+      flash[:alert] = 'No associated team found. Please create a team first.'
+      redirect_to edit_team_info_path # Redirect to team setup
+    end
   end
 
-  # Load team-specific data to DRY up controller actions
   def load_team_data
     @players = @team.players
     @upcoming_matches = @team.upcoming_matches
@@ -85,7 +73,6 @@ class TeamDashboardsController < ApplicationController
     @team_logo = @team.logo
   end
 
-  # Strong parameters for updating team data
   def team_params
     params.require(:team).permit(:name, :logo, :contact_email, :contact_phone, :description)
   end
