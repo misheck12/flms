@@ -18,8 +18,8 @@ class TeamDashboardsController < ApplicationController
   end
 
   def show
-    # Fetch detailed team data
-    @team = current_user
+    # Fetch the team associated with the current user
+    @team = current_user.team
     if @team.present?
       @players = @team.players || []
       @upcoming_matches = @team.upcoming_matches || []
