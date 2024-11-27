@@ -76,13 +76,13 @@
                   (<%= @minimum_password_length %> characters minimum)
                 </small>
               <% end %>
-              <%= f.password_field :password, autocomplete: "new-password", class: "form-control" %>
+              <%= f.password_field :password, autocomplete: "off", class: "form-control" %>
             </div>
 
             <!-- Password Confirmation Field -->
             <div class="form-group">
               <%= f.label :password_confirmation %>
-              <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control" %>
+              <%= f.password_field :password_confirmation, autocomplete: "off", class: "form-control" %>
             </div>
 
             <!-- Submit Button -->
