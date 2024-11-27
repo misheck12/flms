@@ -1,123 +1,44 @@
-<div class="container mt-5">
-  <div class="row justify-content-center">
-    <div class="col-md-6">
+<!-- app/views/devise/registrations/new.html.erb -->
 
-      <div class="card">
-        <div class="card-header bg-primary text-white">
-          <h3 class="mb-0">Sign Up</h3>
-        </div>
+<h2>Sign up</h2>
 
-        <div class="card-body">
-          <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-            <%= render "devise/shared/error_messages", resource: resource %>
-
-              <!-- Name Field -->
-            <div class="form-group">
-              <%= f.label :name %>
-              <%= f.text_field :name, required: true, autofocus: true, autocomplete: "name", class: "form-control" %>
-            </div>
-
-            <!-- Email Field -->
-            <div class="form-group">
-              <%= f.label :email %>
-              <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control" %>
-            </div>
-
-            <!-- Role Selection Field -->
-            <div class="form-group">
-              <%= f.label :role, "Select Your Role" %>
-              <%= f.select :role, User.roles.keys.map { |role| [role.titleize, role] }, { prompt: "Select Role" }, id: "user_role", class: "form-control" %>
-            </div>
-
-            <div id="team_fields" style="display: none;">
-              <h3>Team Information</h3>
-
-              <div class="form-group">
-                <%= f.label :team_name %>
-                <%= f.text_field :team_name, class: "form-control" %>
-              </div>
-
-              <div class="form-group">
-                <%= f.label :team_city %>
-                <%= f.text_field :team_city, class: "form-control" %>
-              </div>
-
-              <div class="form-group">
-                <%= f.label :team_stadium %>
-                <%= f.text_field :team_stadium, class: "form-control" %>
-              </div>
-
-              <div class="form-group">
-                <%= f.label :team_foundation_year %>
-                <%= f.number_field :team_foundation_year, class: "form-control" %>
-              </div>
-
-              <div class="form-group">
-                <%= f.label :team_president %>
-                <%= f.text_field :team_president, class: "form-control" %>
-              </div>
-
-              <div class="form-group">
-                <%= f.label :team_manager %>
-                <%= f.text_field :team_manager, class: "form-control" %>
-              </div>
-
-              <div class="form-group">
-                <%= f.label :league %>
-                <%= f.collection_select :league_id, League.all, :id, :name, { prompt: "Select League", include_blank: true }, { class: "form-control" } %>
-              </div>
-            </div>
-
-            <!-- Password Field -->
-            <div class="form-group">
-              <%= f.label :password %>
-              <% if @minimum_password_length %>
-                <small class="form-text text-muted">
-                  (<%= @minimum_password_length %> characters minimum)
-                </small>
-              <% end %>
-              <%= f.password_field :password, autocomplete: "off", class: "form-control" %>
-            </div>
-
-            <!-- Password Confirmation Field -->
-            <div class="form-group">
-              <%= f.label :password_confirmation %>
-              <%= f.password_field :password_confirmation, autocomplete: "off", class: "form-control" %>
-            </div>
-
-            <!-- Submit Button -->
-            <div class="form-group mb-0">
-              <%= f.submit "Sign up", class: "btn btn-primary btn-block" %>
-            </div>
-          <% end %>
-        </div>
-
-        <div class="card-footer text-center">
-          <%= render "devise/shared/links" %>
-        </div>
-      </div>
-
-    </div>
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  
+  <!-- Email Field -->
+  <div class="form-group">
+    <%= f.label :email %>
+    <%= f.email_field :email, autofocus: true, class: 'form-control' %>
   </div>
-</div>
 
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const roleSelect = document.querySelector("#user_role");
-    const teamFields = document.querySelector("#team_fields");
+  <!-- Password Field -->
+  <div class="form-group">
+    <%= f.label :password %>
+    <% if @minimum_password_length %>
+      <small class="form-text text-muted">
+        (<%= @minimum_password_length %> characters minimum)
+      </small>
+    <% end %>
+    <%= f.password_field :password, autocomplete: "off", class: 'form-control' %>
+  </div>
 
-    const toggleTeamFields = () => {
-      if (roleSelect.value === 'team') {
-        teamFields.style.display = 'block';
-      } else {
-        teamFields.style.display = 'none';
-      }
-    };
+  <!-- Password Confirmation Field -->
+  <div class="form-group">
+    <%= f.label :password_confirmation %>
+    <%= f.password_field :password_confirmation, autocomplete: "off", class: 'form-control' %>
+  </div>
 
-    // Initial toggle on page load
-    toggleTeamFields();
+  <!-- Role Selection -->
+  <div class="form-group">
+    <%= f.label :role %>
+    <%= f.select :role, User.roles.keys.map { |role| [role.titleize, role] }, { prompt: "Select Role" }, { class: 'form-control', id: 'user_role' } %>
+  </div>
 
-    // Add event listener to toggle team fields based on role selection
-    roleSelect.addEventListener('change', toggleTeamFields);
-  });
-</script>
+  <!-- Submit Button -->
+  <div class="actions">
+    <%= f.submit "Sign up", class: 'btn btn-primary' %>
+  </div>
+<% end %>
+
+<%= render "devise/shared/links" %>
+
+<!-- Remove any JavaScript related to toggle team fields since they're no longer needed -->
