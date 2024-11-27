@@ -25,7 +25,7 @@ class User < ApplicationRecord
   # Instance Methods
   
   # Virtual attributes for team registration fields
-  attr_accessor :team_name, :team_city, :team_stadium, :team_foundation_year, :team_president, :team_manager, :league_id
+  #attr_accessor :team_name, :team_city, :team_stadium, :team_foundation_year, :team_president, :team_manager, :league_id
 
 
   # Check if the user is an admin
