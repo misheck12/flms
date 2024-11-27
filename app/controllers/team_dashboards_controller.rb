@@ -8,7 +8,7 @@ class TeamDashboardsController < ApplicationController
       load_team_data
     else
       flash[:alert] = 'No team data found. Please complete your team setup.'
-      redirect_to edit_team_info_path # Redirect to team setup
+      redirect_to new_team_path # Redirect to team setup
     end
   end
 
@@ -89,7 +89,7 @@ class TeamDashboardsController < ApplicationController
     @team = current_user.team
     if @team.nil?
       flash[:alert] = 'No associated team found. Please create a team first.'
-      redirect_to edit_team_info_path # Redirect to team setup
+      redirect_to new_team_path # Redirect to team setup
     end
   end
 
