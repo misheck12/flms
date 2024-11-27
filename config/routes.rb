@@ -13,6 +13,14 @@ Rails.application.routes.draw do
   get 'team/dashboard', to: 'team_dashboards#show', as: :team_dashboard
   get 'referee/dashboard', to: 'referee_dashboards#show', as: :referee_dashboard
 
+
+
+  # Team Dashboard Routes
+  resource :team_dashboard, only: [:show] do
+    get 'edit_team_info', to: 'team_dashboards#edit_team_info', as: 'edit_team_info'
+    patch 'update_team_info', to: 'team_dashboards#update_team_info', as: 'update_team_info'
+    # Add additional custom routes here if needed
+  end
   # Admin Namespace
   namespace :admin do
     resources :leagues do
