@@ -8,7 +8,7 @@ class TeamDashboardsController < ApplicationController
       load_team_data
     else
       flash[:alert] = 'No team data found. Please complete your team setup.'
-      redirect_to new_team_path # Redirect to team setup
+      redirect_to new_admin_team_path # Redirect to team setup
     end
   end
 
@@ -17,14 +17,14 @@ class TeamDashboardsController < ApplicationController
       load_team_data
     else
       flash[:alert] = 'No team data found. Please complete your team setup.'
-      redirect_to new_team_path # Redirect to team creation page
+      redirect_to new_admin_team_path # Redirect to team creation page
     end
   end
 
   def edit_team_info
     unless @team
       flash[:alert] = 'No associated team found. Please create a team first.'
-      redirect_to new_team_path
+      redirect_to new_admin_team_path
     end
     # Renders edit_team_info.html.erb
   end
@@ -69,7 +69,7 @@ class TeamDashboardsController < ApplicationController
   def ensure_team_user
     unless current_user&.team?
       flash[:alert] = 'Access denied! Please create a team to access the dashboard.'
-      redirect_to new_team_path # Redirect to team creation page to prevent infinite loop
+      redirect_to new_admin_team_path # Redirect to team creation page to prevent infinite loop
     end
   end
 
