@@ -1,6 +1,9 @@
 class TeamsController < ApplicationController
+  before_action :authenticate_user!
+  before_action :ensure_team_role
   before_action :set_league
-  before_action :set_team, only: [:show, :edit, :update, :destroy]
+  before_action :set_team, only: [:edit, :update]
+  before_action :redirect_if_team_exists, only: [:new, :create], unless: :team_absent?
   after_action :verify_authorized, except: [:index]
   after_action :verify_policy_scoped, only: [:index]
 
@@ -16,33 +19,32 @@ class TeamsController < ApplicationController
     @recent_team_histories = @team.team_histories.order(season_year: :desc).limit(5)
   end
 
-  # GET /leagues/:league_id/teams/new
+  # GET /teams/new
   def new
-    @team = @league.teams.build
-    authorize @team
+    @team = Team.new
   end
 
-  # POST /leagues/:league_id/teams
+  # POST /teams
   def create
-    @team = @league.teams.build(team_params)
-    authorize @team
+    @team = Team.new(team_params)
+    @team.user = current_user
+
     if @team.save
-      redirect_to [@league, @team], notice: 'Team was successfully created.'
+      redirect_to team_dashboard_path, notice: 'Team was successfully created.'
     else
       render :new
     end
   end
 
-  # GET /leagues/:league_id/teams/:id/edit
+  # GET /teams/:id/edit
   def edit
-    authorize @team
+    # @team is set by set_team
   end
 
-  # PATCH/PUT /leagues/:league_id/teams/:id
+  # PATCH/PUT /teams/:id
   def update
-    authorize @team
     if @team.update(team_params)
-      redirect_to [@league, @team], notice: 'Team was successfully updated.'
+      redirect_to team_dashboard_path, notice: 'Team was successfully updated.'
     else
       render :edit
     end
@@ -64,15 +66,30 @@ class TeamsController < ApplicationController
     redirect_to leagues_path, alert: 'League not found.'
   end
 
-  # Sets the current team based on the id parameter within the league
+  def ensure_team_role
+    redirect_to root_path, alert: 'Unauthorized access.' unless current_user.team?
+  end
+
   def set_team
-    @team = @league.teams.find(params[:id])
-  rescue ActiveRecord::RecordNotFound
-    redirect_to league_teams_path(@league), alert: 'Team not found.'
+    @team = current_user.team
+    redirect_to new_team_path, alert: 'Please create a team first.' if @team.nil?
+  end
+
+  def redirect_if_team_exists
+    if current_user.team.present?
+      redirect_to edit_team_path(current_user.team), notice: 'You already have a team.'
+    end
+  end
+
+  def team_absent?
+    current_user.team.nil?
   end
 
   # Strong parameters to whitelist team attributes
   def team_params
-    params.require(:team).permit(:name, :city, :stadium, :foundation_year, :president, :manager)
+    params.require(:team).permit(
+      :name, :city, :stadium, :foundation_year,
+      :president, :manager, :league_id
+    )
   end
 end
