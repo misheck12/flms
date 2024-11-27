@@ -1,45 +1,34 @@
 class TeamDashboardsController < ApplicationController
-  before_action :authenticate_user! # Ensure any user is authenticated
-  before_action :ensure_team_user # Restrict access to users with the "Team" role
+  before_action :authenticate_user!       # Ensure the user is authenticated
+  before_action :ensure_team_user         # Restrict access to users with the "Team" role
+  before_action :set_team, only: [:index, :show, :edit_team_info, :update_team_info]
 
   def index
-    # Fetch the logged-in team user
-    @team = current_user
     if @team.present?
-      # Gather data specific to the team
-      @players = @team.players || []
-      @upcoming_matches = @team.upcoming_matches || []
-      @past_matches = @team.past_matches || []
-      @team_logo = @team.logo
+      load_team_data
     else
       flash[:alert] = 'No team data found. Please complete your team setup.'
-      redirect_to edit_user_registration_path
+      redirect_to team_dashboard_path
     end
   end
 
   def show
-    # Fetch the team associated with the current user
-    @team = current_user.team
     if @team.present?
-      @players = @team.players || []
-      @upcoming_matches = @team.upcoming_matches || []
-      @past_matches = @team.past_matches || []
-      @team_logo = @team.logo
+      load_team_data
     else
       flash[:alert] = 'No team data found. Please complete your team setup.'
-      redirect_to edit_user_registration_path
+      redirect_to team_dashboard_path
     end
   end
 
   def edit_team_info
-    @team = current_user
     if @team.nil?
-      redirect_to root_path, alert: 'No associated team found.'
+      flash[:alert] = 'No associated team found. Please create a team first.'
+      redirect_to team_dashboard_path
     end
   end
 
   def update_team_info
-    @team = current_user
     if @team.update(team_params)
       redirect_to team_dashboard_path, notice: 'Team information updated successfully!'
     else
@@ -49,24 +38,51 @@ class TeamDashboardsController < ApplicationController
   end
 
   def view_league_standings
-    @league = League.find(params[:league_id])
-    @standings = @league.standings
+    @league = League.find_by(id: params[:league_id])
+    if @league
+      @standings = @league.standings
+    else
+      flash[:alert] = 'League not found.'
+      redirect_back(fallback_location: team_dashboard_path)
+    end
   end
 
   def view_match_report
-    @match = Match.find(params[:match_id])
-    @report = @match.match_report
+    @match = Match.find_by(id: params[:match_id])
+    if @match
+      @report = @match.match_report
+    else
+      flash[:alert] = 'Match not found.'
+      redirect_back(fallback_location: team_dashboard_path)
+    end
   end
 
   def contact_support
-    # Placeholder for contacting support
+    # Implement contact support functionality here
+    # Example: Render a contact form or send an email to support
   end
 
   private
 
-  # Ensure that only "Team" users can access the dashboard
+  # Ensure that only users with the "Team" role can access the dashboard
   def ensure_team_user
-    redirect_to root_path, alert: 'Access denied! Only team accounts can view this dashboard.' unless current_user&.team?
+    unless current_user&.team?
+      flash[:alert] = 'Access denied! Only team accounts can view this dashboard.'
+      redirect_to team_dashboard_path
+    end
+  end
+
+  # Set the @team instance variable based on the current user's team association
+  def set_team
+    @team = current_user.team
+  end
+
+  # Load team-specific data to DRY up controller actions
+  def load_team_data
+    @players = @team.players
+    @upcoming_matches = @team.upcoming_matches
+    @past_matches = @team.past_matches
+    @team_logo = @team.logo
   end
 
   # Strong parameters for updating team data
