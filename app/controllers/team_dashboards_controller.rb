@@ -12,6 +12,33 @@ class TeamDashboardsController < ApplicationController
     end
   end
 
+  def show
+    if @team.present?
+      load_team_data
+      # Check if the team has players
+      if @players.empty?
+        flash[:notice] = 'Your team has no players yet. Add players to your team.'
+        # Assuming you have a new_player_path or similar to add players
+        redirect_to new_player_path 
+      end
+      # Check if the team has upcoming matches
+      if @upcoming_matches.empty?
+        flash[:notice] = 'Your team has no upcoming matches scheduled.'
+        # Assuming you have a new_match_path or similar to schedule matches
+        redirect_to new_match_path 
+      end
+      # Check if the team has past matches
+      if @past_matches.empty?
+        flash[:notice] = 'Your team has not played any matches yet.'
+        # Potentially redirect to a page to schedule matches or view past results
+        redirect_to matches_path 
+      end
+    else
+      flash[:notice] = 'You haven\'t created a team yet. Please create one to get started.'
+      redirect_to new_team_path 
+    end
+  end
+
   # Since index and show have the same logic, you can remove the show action
 
   def edit_team_info
