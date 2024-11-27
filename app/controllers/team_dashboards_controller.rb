@@ -1,7 +1,7 @@
 class TeamDashboardsController < ApplicationController
   before_action :authenticate_user!
   before_action :ensure_team_user
-  before_action :set_team
+  before_action :set_team, only: [:show, :edit_team_info, :update_team_info]
 
   def index
     if @team.present?
@@ -15,34 +15,18 @@ class TeamDashboardsController < ApplicationController
   def show
     if @team.present?
       load_team_data
-      # Check if the team has players
-      if @players.empty?
-        flash[:notice] = 'Your team has no players yet. Add players to your team.'
-        # Assuming you have a new_player_path or similar to add players
-        redirect_to new_player_path 
-      end
-      # Check if the team has upcoming matches
-      if @upcoming_matches.empty?
-        flash[:notice] = 'Your team has no upcoming matches scheduled.'
-        # Assuming you have a new_match_path or similar to schedule matches
-        redirect_to new_match_path 
-      end
-      # Check if the team has past matches
-      if @past_matches.empty?
-        flash[:notice] = 'Your team has not played any matches yet.'
-        # Potentially redirect to a page to schedule matches or view past results
-        redirect_to matches_path 
-      end
     else
-      flash[:notice] = 'You haven\'t created a team yet. Please create one to get started.'
-      redirect_to new_team_path 
+      flash[:alert] = 'No team data found. Please complete your team setup.'
+      redirect_to new_team_path # Redirect to team creation page
     end
   end
 
-  # Since index and show have the same logic, you can remove the show action
-
   def edit_team_info
-    # No need for a conditional here since set_team will handle it
+    unless @team
+      flash[:alert] = 'No associated team found. Please create a team first.'
+      redirect_to new_team_path
+    end
+    # Renders edit_team_info.html.erb
   end
 
   def update_team_info
@@ -55,44 +39,46 @@ class TeamDashboardsController < ApplicationController
   end
 
   def view_league_standings
-    @league = League.find(params[:league_id]) # Use find instead of find_by for simpler error handling
+    @league = League.find_by(id: params[:league_id])
     if @league
       @standings = @league.standings
     else
-      redirect_to team_dashboard_path, alert: 'League not found.' # Redirect with alert
+      flash[:alert] = 'League not found.'
+      redirect_back(fallback_location: team_dashboard_path)
     end
   end
 
   def view_match_report
-    @match = Match.find(params[:match_id]) # Use find instead of find_by
+    @match = Match.find_by(id: params[:match_id])
     if @match
       @report = @match.match_report
     else
-      redirect_to team_dashboard_path, alert: 'Match not found.' # Redirect with alert
+      flash[:alert] = 'Match not found.'
+      redirect_back(fallback_location: team_dashboard_path)
     end
   end
 
   def contact_support
     # Implement contact support functionality here
+    # Example: Render a contact form or send an email to support
   end
 
   private
 
+  # Ensure that only users with the "Team" role can access the dashboard
   def ensure_team_user
     unless current_user&.team?
-      flash[:alert] = 'Access denied! Only team accounts can view this dashboard.'
-      redirect_to root_path # Redirect to root if not a team user
+      flash[:alert] = 'Access denied! Please create a team to access the dashboard.'
+      redirect_to new_team_path # Redirect to team creation page to prevent infinite loop
     end
   end
 
+  # Set the @team instance variable based on the current user's team association
   def set_team
     @team = current_user.team
-    if @team.nil?
-      flash[:alert] = 'No associated team found. Please create a team first.'
-      redirect_to new_team_path # Redirect to team setup
-    end
   end
 
+  # Load team-specific data to DRY up controller actions
   def load_team_data
     @players = @team.players
     @upcoming_matches = @team.upcoming_matches
@@ -100,6 +86,7 @@ class TeamDashboardsController < ApplicationController
     @team_logo = @team.logo
   end
 
+  # Strong parameters for updating team data
   def team_params
     params.require(:team).permit(:name, :logo, :contact_email, :contact_phone, :description)
   end
